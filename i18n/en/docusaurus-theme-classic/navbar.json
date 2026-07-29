@@ -1,0 +1,18 @@
+{
+  "title": {
+    "message": "文档 · 帮助",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "文档 · 帮助",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.文档与帮助": {
+    "message": "文档与帮助",
+    "description": "Navbar item with label 文档与帮助"
+  },
+  "item.label.主站文章库": {
+    "message": "主站文章库",
+    "description": "Navbar item with label 主站文章库"
+  }
+}
