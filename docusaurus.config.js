@@ -42,7 +42,17 @@ const config = {
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
           showLastUpdateTime: false,
-          // 版本管理暂时不配置，等创建版本后再添加
+           // ---------- 版本管理 ----------
+          lastVersion: '1.0.0',
+          versions: {
+            current: {
+              label: 'Future 🚧',
+              banner: 'unreleased',
+            },
+            '1.0.0': {
+              label: '1.0.0',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
@@ -114,6 +124,10 @@ const config = {
             sidebarId: 'articleSidebar',
             position: 'left',
             label: '主站文章库',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
           },
           {
             type: 'localeDropdown',
