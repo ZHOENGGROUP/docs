@@ -1,0 +1,24 @@
+name: Create Doc Version 1.0.0
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  create-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Create version 1.0.0
+        run: |
+          npm run docusaurus docs:version 1.0.0
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Create documentation version 1.0.0" || echo "No changes"
+          git push
