@@ -23,10 +23,13 @@ const config = {
     },
   },
 
-  // 多语言：暂只保留中文，英文后续添加
   i18n: {
     defaultLocale: 'zh-Hans',
-    locales: ['zh-Hans'],
+    locales: ['zh-Hans', 'en'],
+    localeConfigs: {
+      'zh-Hans': { label: '中文（中国）' },
+      'en': { label: 'English' },
+    },
   },
 
   presets: [
@@ -112,7 +115,10 @@ const config = {
             position: 'left',
             label: '主站文章库',
           },
-          // 语言下拉框、版本下拉框稍后添加
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           // GitHub 图标链接
           {
             href: 'https://github.com/ZHOENGGROUP/docs',
