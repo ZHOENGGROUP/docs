@@ -1,0 +1,24 @@
+name: Generate EN Translation Templates
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Write translation files for English
+        run: |
+          npm run write-translations -- --locale en
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add i18n/
+          git commit -m "Generate English translation templates" || echo "No changes"
+          git push
