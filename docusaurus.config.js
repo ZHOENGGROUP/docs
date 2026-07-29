@@ -1,43 +1,32 @@
 // @ts-check
-// `@type` JSDoc annotations allow editor autocompletion and type checking
-// (when paired with `@ts-check`).
-// There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
-
-import {themes as prismThemes} from 'prism-react-renderer';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+import { themes as prismThemes } from 'prism-react-renderer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: '文档中心 · 帮助中心',
+  tagline: '中政集团 ZHONG ZHENG GROUP',
   favicon: 'img/favicon.ico',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
-  },
-
-  // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: 'https://docs.zhoeng.com.cn',   // 改为你的实际域名
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'ZHOENGGROUP',      // 你的 GitHub 用户名
+  projectName: 'docs',                  // 你的仓库名
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
+
+  // 多语言：暂只保留中文，英文后续添加
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: 'zh-Hans',
+    locales: ['zh-Hans'],
   },
 
   presets: [
@@ -47,22 +36,18 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          showLastUpdateTime: false,
+          // 版本管理暂时不配置，等创建版本后再添加
         },
         blog: {
           showReadingTime: true,
+          editUrl: 'https://github.com/ZHOENGGROUP/docs/edit/main/',
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -74,83 +59,96 @@ const config = {
     ],
   ],
 
+  themes: [
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        indexDocs: true,
+        indexBlog: false,
+        language: ['zh'],
+        hashed: true,
+        searchResultContextMaxLength: 80,
+        // 默认索引所有文档，不限制版本
+      },
+    ],
+  ],
+
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
+      crossorigin: 'anonymous',
+    },
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+
       colorMode: {
-        respectPrefersColorScheme: true,
+        defaultMode: 'light',
+        respectPrefersColorScheme: false,
       },
+
       navbar: {
-        title: 'My Site',
+        title: '文档 · 帮助',
         logo: {
-          alt: 'My Site Logo',
+          alt: '文档 · 帮助',
           src: 'img/logo.svg',
         },
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'helpSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: '文档与帮助',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
+            type: 'docSidebar',
+            sidebarId: 'articleSidebar',
+            position: 'left',
+            label: '主站文章库',
+          },
+          // 语言下拉框、版本下拉框稍后添加
+          // GitHub 图标链接
+          {
+            href: 'https://github.com/ZHOENGGROUP/docs',
             position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
           },
         ],
       },
+
       footer: {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: '文档',
             items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
+              { label: '用户协议', to: '/docs/help/useragreement' },
+              { label: '隐私政策', to: '/docs/help/privacypolicy' },
+              { label: '免责声明', to: '/docs/help/disclaimer' },
             ],
           },
           {
-            title: 'Community',
+            title: '关于',
             items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
+              { label: '中政集团', href: 'https://www.zhoeng.com.cn/' },
+              { label: 'GitHub', href: 'https://github.com/ZHOENGGROUP/docs' },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © 2025 - ${new Date().getFullYear()} 中政集团 ZHONG ZHENG GROUP   Copyright © 2025 - ${new Date().getFullYear()} 中政科技 ZHONG ZHENG TECHNOLOGY\nBuilt with Docusaurus.`,
       },
+
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        additionalLanguages: ['bash', 'yaml', 'json', 'powershell'],
       },
     }),
 };
